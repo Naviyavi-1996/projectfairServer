@@ -54,20 +54,28 @@ exports.login = async(req,res)=>{
 
 }
 
-exports.editProfileController=async(req,res)=>{
-    const userId=req.payload
-    const{username,email,password,profile,github,linkedin}=req.body
-    uploadImg=req.file?req.file.filename:profile
-    try{
-         const existingUser=await users.findByIdAndUpdate({_id:userId},{
-            username,email,password,
-            profile:uploadImg,github,linkedin
-         },{new:true})
-         await existingUser.save()
-         res.status(200).json(existingUser)
-    }catch(error)
-    {
-        res.status(401).json(error) 
+// edit profile
+exports.editProfileController = async (req, res) => {
+    const userId = req.payload
+    const { username, email, password, profile, github, linkedin } = req.body
+    uploadImg = req.file ? req.file.filename : profile
+
+    try {
+        const existingUser = await users.findByIdAndUpdate({ _id: userId }, {
+            username,
+            email,
+            password,
+            profile:uploadImg,
+            github,
+            linkedin
+        }, { new: true })
+        await existingUser.save()
+        res.status(200).json(existingUser)
+
+
+    } catch (error) {
+        res.status(401).json(error)
     }
+
 
 }
